@@ -16,7 +16,7 @@ app.post("/chat/public", async (req, res) => {
     return res.status(400).json({ error: "Message required" });
   }
 
-  // TEMP response (AI comes next step)
+  // Backend just replies
   res.json({
     reply: "Backend is connected. AI not wired yet."
   });

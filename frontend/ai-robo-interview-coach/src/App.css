@@ -13,10 +13,95 @@ html, body, #root {
 }
 
 body {
-  background: #1958eb;
+  background: hsl(240, 40%, 4%);
   color: #e5e7eb;
   height: 70vh;
 }
+.layout {
+  display:flex;
+  width: 100%;
+  /* max-width: 100%; */
+  height: 500px;
+  gap: 5px;
+}
+
+/* HISTORY PANEL */
+.history-panel {
+  width: 300px;
+  background: #040d2d;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.history-header {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+.new-chat-btn {
+  width: 100%;
+  background: #2563eb;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background 0.2s ease;
+}
+
+.new-chat-btn:hover {
+  background: #1d4ed8;
+}
+
+.history-search {
+  background: #1e293b;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: #e5e7eb;
+  margin-bottom: 10px;
+}
+
+.history-search::placeholder {
+  color: #9ca3af;
+}
+
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.history-item {
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.history-item:hover {
+  background: #1e293b;
+}
+
+.history-item.active {
+  background: #2563eb;
+  color: white;
+}
+
+/* CHAT BOX ADJUSTMENT */
+.chat-box {
+  flex: 1;
+}
+
+
+
 
 .app-container {
   height: 90px;
@@ -27,7 +112,7 @@ body {
 }
 
 .chat-box {
-  width: 420px;
+  width: 580px;
   height: 500px;
   background: #020617;
   border-radius: 12px;
@@ -46,9 +131,56 @@ body {
 
 .chat-messages {
   flex: 1;
+  width: 100%;
   overflow-y: auto;
-  padding-right: 4px;
+  display: flex;          /* REQUIRED */
+  flex-direction: column; 
+ /* padding-right: 4px; */
 }
+.message.thinking {
+  opacity: 0.6;
+  font-style: italic;
+}
+.chat-input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #1e293b;
+  border-radius: 14px;
+  padding: 6px;
+  gap: 6px;
+}
+
+.chat-input-wrapper input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e5e7eb;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.chat-input-wrapper input::placeholder {
+  color: #9ca3af;
+}
+
+.chat-input-wrapper button {
+  background: #22c55e;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #020617;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+
+.chat-input-wrapper button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 
 .message {
   max-width: 80%;
@@ -68,7 +200,7 @@ body {
   align-self: flex-start;
 }
 
-.chat-input {
+/* .chat-input {
   display: flex;
   gap: 8px;
   margin-top: 10px;
@@ -90,4 +222,210 @@ body {
   background: #22c55e;
   color: #020617;
   font-weight: bold;
+} */
+
+/* FULL SCREEN CONTAINER */
+.interview-container {
+  position: fixed;
+  inset: 0;
+  background: #020617;
+  display: flex;
+  flex-direction: column;
 }
+
+/* HEADER */
+.interview-header {
+  height: 60px;
+  padding: 0 20px;
+  background: #020617;
+  border-bottom: 1px solid #1e293b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.interview-title {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.exit-interview-btn {
+  background: transparent;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* BODY */
+.interview-body {
+  flex: 1;
+  display: flex;
+}
+
+/* AVATAR SIDE */
+.avatar-panel {
+  width: 35%;
+  background: #020617;
+  border-right: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-placeholder {
+  width: 260px;
+  height: 360px;
+  border-radius: 12px;
+  background: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+}
+
+.avatar-status {
+  margin-top: 12px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* CHAT SIDE */
+.interview-chat-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.interview-messages {
+  flex: 1;
+  overflow-y: auto;
+}
+.exit-confirm-modal {
+  width: 340px;
+  background: #020617;
+  padding: 20px;
+  border-radius: 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.exit-confirm-modal p {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.exit-confirm-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.cancel-btn {
+  background: #1e293b;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: #e5e7eb;
+  cursor: pointer;
+}
+
+.confirm-exit-btn {
+  background: #ef4444;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.interview-message {
+  max-width: 70%;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.interview-message.ai {
+  background: #1e293b;
+}
+
+/* INPUT */
+.interview-input-wrapper {
+  display: flex;
+  gap: 8px;
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 6px;
+}
+
+.interview-input-wrapper input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e5e7eb;
+  padding: 10px;
+}
+
+.interview-input-wrapper button {
+  background: #22c55e;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.interview-modal {
+  width: 360px;
+  background: #020617;
+  padding: 20px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.interview-modal h3 {
+  margin: 0;
+  text-align: center;
+}
+
+.interview-modal input,
+.interview-modal select {
+  background: #1e293b;
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: #e5e7eb;
+}
+
+.start-interview-btn {
+  background: #22c55e;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.interview-timer {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
