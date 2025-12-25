@@ -144,7 +144,7 @@ body {
 .chat-input-wrapper {
   display: flex;
   align-items: center;
-  background: #1e293b;
+  background: #92afdc;
   border-radius: 14px;
   padding: 6px;
   gap: 6px;
@@ -161,7 +161,7 @@ body {
 }
 
 .chat-input-wrapper input::placeholder {
-  color: #9ca3af;
+  color: #b1bcba;
 }
 
 .chat-input-wrapper button {
@@ -181,6 +181,25 @@ body {
   cursor: not-allowed;
 }
 
+.interview-modal {
+  position: relative; /* REQUIRED for absolute close button */
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  color: #ef4444;
+}
 
 .message {
   max-width: 80%;
@@ -196,7 +215,7 @@ body {
 }
 
 .message.ai {
-  background: #1e293b;
+  background: #2f7b94;
   align-self: flex-start;
 }
 
@@ -231,18 +250,23 @@ body {
   background: #020617;
   display: flex;
   flex-direction: column;
+   padding: 16px;
+  box-sizing: border-box;
 }
+
 
 /* HEADER */
 .interview-header {
-  height: 60px;
-  padding: 0 20px;
-  background: #020617;
-  border-bottom: 1px solid #1e293b;
+  height: 64px;
+  flex-shrink: 0;
+   padding: 0 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #1e293b;
 }
+
 
 .interview-title {
   font-weight: bold;
@@ -261,19 +285,22 @@ body {
 /* BODY */
 .interview-body {
   flex: 1;
-  display: flex;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  overflow: hidden;
+  min-height: 0;
 }
+
 
 /* AVATAR SIDE */
 .avatar-panel {
-  width: 35%;
-  background: #020617;
   border-right: 1px solid #1e293b;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+
 
 .avatar-placeholder {
   width: 260px;
@@ -294,16 +321,24 @@ body {
 
 /* CHAT SIDE */
 .interview-chat-panel {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  height: 100%;
+  min-height:0;
 }
+
 
 .interview-messages {
   flex: 1;
+  padding: 24px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
 }
+
+
 .exit-confirm-modal {
   width: 340px;
   background: #020617;
@@ -357,30 +392,35 @@ body {
 
 /* INPUT */
 .interview-input-wrapper {
+  flex-shrink: 0;
   display: flex;
-  gap: 8px;
-  background: #1e293b;
-  border-radius: 12px;
-  padding: 6px;
+  gap: 12px;
+  padding: 16px;
+  border-top: 1px solid #1e293b;
+  background: #020617;
+   margin-bottom: 4px;
 }
+
 
 .interview-input-wrapper input {
   flex: 1;
-  background: transparent;
+  background: #1e293b;
   border: none;
   outline: none;
   color: #e5e7eb;
-  padding: 10px;
+  padding: 12px;
+  border-radius: 10px;
 }
 
 .interview-input-wrapper button {
   background: #22c55e;
   border: none;
   border-radius: 10px;
-  padding: 10px 14px;
+  padding: 12px 16px;
   font-weight: bold;
   cursor: pointer;
 }
+
 .modal-overlay {
   position: fixed;
   inset: 0;

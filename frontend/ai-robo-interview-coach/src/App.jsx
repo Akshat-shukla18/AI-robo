@@ -1,17 +1,32 @@
 
 import { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import "./App.css";
 
 function App() {
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
+  // const [input, setInput] = useState("");
+  // const [messages, setMessages] = useState([]);
+  const [chatMessages, setChatMessages] = useState([]);
+const [chatInput, setChatInput] = useState("");
+
+const [chatSessionId, setChatSessionId] = useState(0);
+
+const [awaitingAnswer, setAwaitingAnswer] = useState(false);
+
+
+const [interviewMessages, setInterviewMessages] = useState([]);
+const [interviewInput, setInterviewInput] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState("chat"); 
   const [showInterviewSetup, setShowInterviewSetup] = useState(false);
   const [seconds, setSeconds] = useState(0);
 const [timerRunning, setTimerRunning] = useState(false);
 const [showExitConfirm, setShowExitConfirm] = useState(false);
+const [search, setSearch] = useState("");
+
 
 useEffect(() => {
   let interval;
@@ -46,36 +61,58 @@ const [interviewConfig, setInterviewConfig] = useState({
 
 
 
-const startNewChat = (newMode = "chat") => {
-  setMode(newMode);
-  setMessages([]);
-  setInput("");
+const startNewChat = () => {
+  setMode("chat");
+  setChatMessages([]);
+  setChatInput("");
   setLoading(false);
+  setChatSessionId((prev) => prev + 1);
 };
 
 
-  const sendMessage = async () => {
-    if (!input.trim() || loading) return;
 
-    setLoading(true);
+//   
+const sendMessage = async () => {
+  if (loading) return;
 
-    const res = await fetch("http://localhost:5000/chat/public", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: input })
-    });
+  const currentInput =
+    mode === "chat" ? chatInput : interviewInput;
 
-    const data = await res.json();
+  if (!currentInput.trim()) return;
 
-    setMessages((prev) => [
+  setLoading(true);
+
+  const res = await fetch("http://localhost:5000/chat/public", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message: currentInput,
+      mode,
+      jobTitle: interviewConfig.jobTitle,
+      experience: interviewConfig.experience
+    })
+  });
+
+  const data = await res.json();
+
+  if (mode === "chat") {
+    setChatMessages((prev) => [
       ...prev,
-      { from: "user", text: input },
+      { from: "user", text: currentInput },
       { from: "ai", text: data.reply }
     ]);
+    setChatInput("");
+  } else {
+    setInterviewMessages((prev) => [
+      ...prev,
+      { from: "user", text: currentInput },
+      { from: "ai", text: data.reply }
+    ]);
+    setInterviewInput("");
+  }
 
-    setInput("");
-    setLoading(false);
-  };
+  setLoading(false);
+};
 
   return (
     <div className="app-container">
@@ -98,16 +135,24 @@ const startNewChat = (newMode = "chat") => {
 </button>
         <div className="history-header">History</div>
         <input
-          className="history-search"
-          placeholder="Search chats..."
-        />
+  className="history-search"
+  placeholder="Search chats..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+/>
 
         <div className="history-list">
          
           
-          </div> <button className="new-chat-btn" onClick={startNewChat}>
-    + New Chat
-  </button>
+          </div> 
+          
+
+<button
+  className="new-chat-btn"
+  onClick={() => startNewChat("chat")}
+>
+  + New Chat
+</button>
   
           
         
@@ -122,30 +167,41 @@ const startNewChat = (newMode = "chat") => {
     <div className="chat-header">AI Robo Interview Coach</div>
 
     <div className="chat-messages">
-      {messages.map((m, i) => (
-        <div key={i} className={`message ${m.from}`}>
-          {m.text}
-        </div>
-      ))}
+     {chatMessages.map((m, i) => (
+  <div className={`message ${m.from}`}>
+  {m.from === "ai" ? (
+    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+      {m.text}
+    </ReactMarkdown>
+  ) : (
+    m.text
+  )}
+</div>
+
+))}
+
 
       {loading && (
         <div className="message ai thinking">
-          AI is thinking...
+          ...
         </div>
       )}
     </div>
 
-    <div className="chat-input-wrapper">
-      <input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Type your answer..."
-        disabled={loading}
-      />
-      <button onClick={sendMessage} disabled={loading}>
-        {loading ? "…" : "➤"}
-      </button>
-    </div>
+  <div className="interview-input-wrapper">
+ <input
+  value={chatInput}
+  onChange={(e) => setChatInput(e.target.value)}
+  placeholder="Ask the question..."
+  disabled={loading}
+  onKeyDown={(e) => {
+    if (e.key === "Enter") sendMessage();
+  }}
+/>
+  <button onClick={sendMessage} disabled={loading}>
+    {loading ? "…" : "➤"}
+  </button>
+</div>
   </div>
 )}
 
@@ -193,18 +249,42 @@ const startNewChat = (newMode = "chat") => {
       {/* INTERVIEW CHAT PANEL */}
       <div className="interview-chat-panel">
 
-        <div className="interview-messages">
-          <div className="interview-message ai">
-            Welcome. Let’s begin the interview.
-          </div>
-        </div>
+       <div className="interview-messages">
+  {interviewMessages.map((m, i) => (
+ <div className={`message ${m.from}`}>
+  {m.from === "ai" ? (
+    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+      {m.text}
+    </ReactMarkdown>
+  ) : (
+    m.text
+  )}
+</div>
+
+))}
+
+  {loading && (
+    <div className="interview-message ai thinking">
+      AI is thinking...
+    </div>
+  )}
+</div>
 
         <div className="interview-input-wrapper">
-          <input
-            placeholder="Answer the question..."
-          />
-          <button>➤</button>
-        </div>
+  <input
+  value={interviewInput}
+  onChange={(e) => setInterviewInput(e.target.value)}
+  placeholder="Answer the question..."
+  disabled={loading}
+  onKeyDown={(e) => {
+    if (e.key === "Enter") sendMessage();
+  }}
+/>
+
+  <button onClick={sendMessage} disabled={loading}>
+    {loading ? "…" : "➤"}
+  </button>
+</div>
 
       </div>
     </div>
@@ -245,6 +325,15 @@ const startNewChat = (newMode = "chat") => {
   <div className="modal-overlay">
     <div className="interview-modal">
 
+      {/* CLOSE BUTTON */}
+      <button
+        className="modal-close-btn"
+        onClick={() => setShowInterviewSetup(false)}
+        aria-label="Close interview setup"
+      >
+        ✕
+      </button>
+
       <h3>Interview Setup</h3>
 
       <input
@@ -275,16 +364,28 @@ const startNewChat = (newMode = "chat") => {
       </select>
 
       <button
-        className="start-interview-btn"
-        onClick={() => {
-          if (!interviewConfig.jobTitle || !interviewConfig.experience) return;
-          setShowInterviewSetup(false);
-          setMode("interview");
-          startStopwatch();
-        }}
-      >
-        Start Interview
-      </button>
+  className="start-interview-btn"
+  onClick={() => {
+    if (!interviewConfig.jobTitle || !interviewConfig.experience) return;
+
+    setShowInterviewSetup(false);
+    setMode("interview");
+
+    // RESET INTERVIEW STATE
+    setInterviewMessages([
+      {
+        from: "ai",
+        text: "Introduce yourself."
+      }
+    ]);
+
+    setAwaitingAnswer(true);
+    setInterviewInput("");
+    startStopwatch();
+  }}
+>
+  Start Interview
+</button>
 
     </div>
   </div>
