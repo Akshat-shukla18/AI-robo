@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import "./App.css";
-
+<AvatarCanvas state={avatarState} />
 function App() {
   // const [input, setInput] = useState("");
   // const [messages, setMessages] = useState([]);
