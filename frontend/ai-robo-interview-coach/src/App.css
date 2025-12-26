@@ -135,7 +135,7 @@ body {
   display: flex;
   width: 90%;
   max-width: 1300px;
-  height: calc(100vh - 120px); /* Adjusted for navbar height */
+  height: calc(100vh - 120px); /* height */
   margin: 0 auto;
   gap: 16px;
 }
