@@ -1,15 +1,28 @@
 
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
+import { useRef } from "react";
+
 import remarkGfm from "remark-gfm";
+import AvatarCanvas from "./components/Avatar/AvatarCanvas";
+import { AVATAR_STATES } from "./components/Avatar/avatarStates";
 
 import "./App.css";
-<AvatarCanvas state={avatarState} />
+
 function App() {
   // const [input, setInput] = useState("");
+  const interviewEndRef = useRef(null);
+
   // const [messages, setMessages] = useState([]);
-  const [chatMessages, setChatMessages] = useState([]);
+  const [chatMessages, setChatMessages] = useState([ {
+    from: "ai",
+    text: "Hello! I’m your AI Career Assistant. I can help you with career guidance, interview preparation, skill roadmaps, resume advice, and job-related doubts.\n\nAsk anything when you’re ready."
+  }]);
 const [chatInput, setChatInput] = useState("");
+const [avatarState, setAvatarState] = useState(AVATAR_STATES.IDLE);
+const [uploadedDoc, setUploadedDoc] = useState(null);
+const [uploading, setUploading] = useState(false);
+
 
 const [chatSessionId, setChatSessionId] = useState(0);
 
@@ -29,6 +42,12 @@ const [search, setSearch] = useState("");
 
 
 useEffect(() => {
+  interviewEndRef.current?.scrollIntoView({
+    behavior: "smooth",
+  });
+}, [interviewMessages, loading]);
+
+useEffect(() => {
   let interval;
   if (timerRunning) {
     interval = setInterval(() => {
@@ -37,6 +56,52 @@ useEffect(() => {
   }
   return () => clearInterval(interval);
 }, [timerRunning]);
+
+// FILE UPLOAD HANDLER
+const handleFileUpload = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  setUploading(true);
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const res = await fetch("http://localhost:5000/upload", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (data.text) {
+      setUploadedDoc({
+        name: data.filename,
+        text: data.text
+      });
+
+      setChatMessages(prev => [
+        ...prev,
+        {
+          from: "system",
+          text: `📄 **${data.filename} uploaded successfully.**  
+You can now ask me to analyze it.`
+        }
+      ]);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+
+  setUploading(false);
+};
+
+
+
+
+
+
 
 const startStopwatch = () => {
   setSeconds(0);
@@ -81,7 +146,7 @@ const sendMessage = async () => {
   if (!currentInput.trim()) return;
 
   setLoading(true);
-
+setAvatarState(AVATAR_STATES.TALKING);
   const res = await fetch("http://localhost:5000/chat/public", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -110,13 +175,22 @@ const sendMessage = async () => {
     ]);
     setInterviewInput("");
   }
-
+setAvatarState(AVATAR_STATES.IDLE);
   setLoading(false);
 };
 
+
   return (
     <div className="app-container">
-      <div className="layout">  
+      <nav className="navbar">
+        <div className="navbar-logo">Logo</div>
+        <div className="navbar-right">
+          <span className="navbar-item">Help</span>
+          <span className="navbar-item">Feedback</span>
+          <span className="navbar-item">User</span>
+        </div>
+      </nav>
+      <div className="layout">
 
       {/* HISTORY PANEL */}
       {mode === "chat" && (
@@ -131,7 +205,7 @@ const sendMessage = async () => {
   className="interview-mode-btn"
  onClick={() => setShowInterviewSetup(true)}
 >
-  🎯 Interview Mode
+  🧾 Interview Mode
 </button>
         <div className="history-header">History</div>
         <input
@@ -164,8 +238,13 @@ const sendMessage = async () => {
 
         {mode === "chat" && (
   <div className="chat-box">
-    <div className="chat-header">AI Robo Interview Coach</div>
-
+    <div className="chat-header">AI Guidance Desk</div>
+{uploadedDoc && (
+  <div className="attached-doc-banner">
+    <span>📄 {uploadedDoc.name}</span>
+    <button onClick={() => setUploadedDoc(null)}>✖</button>
+  </div>
+)}
     <div className="chat-messages">
      {chatMessages.map((m, i) => (
   <div className={`message ${m.from}`}>
@@ -189,7 +268,16 @@ const sendMessage = async () => {
     </div>
 
   <div className="interview-input-wrapper">
- <input
+    <label className="upload-btn">
+  📎
+  <input
+    type="file"
+    accept=".pdf,.docx,.txt"
+    hidden
+    onChange={handleFileUpload}
+  />
+</label>
+ <input 
   value={chatInput}
   onChange={(e) => setChatInput(e.target.value)}
   placeholder="Ask the question..."
@@ -198,6 +286,7 @@ const sendMessage = async () => {
     if (e.key === "Enter") sendMessage();
   }}
 />
+
   <button onClick={sendMessage} disabled={loading}>
     {loading ? "…" : "➤"}
   </button>
@@ -230,6 +319,12 @@ const sendMessage = async () => {
 >
   Exit Interview
   </button>
+  <button
+  className="end-interview-btn"
+  onClick={endInterview}
+>
+  End Interview
+</button>
 </div>
 
     {/* BODY */}
@@ -237,13 +332,15 @@ const sendMessage = async () => {
 
       {/* AVATAR PANEL */}
       <div className="avatar-panel">
-        <div className="avatar-placeholder">
-          3D Avatar Area
-        </div>
+         <AvatarCanvas />
+<AvatarCanvas avatarState={avatarState} />
 
         <div className="avatar-status">
-          Idle
-        </div>
+  {avatarState === "listening" && "Listening"}
+  {avatarState === "talking" && "Speaking"}
+  {avatarState === "idle" && "Idle"}
+</div>
+
       </div>
 
       {/* INTERVIEW CHAT PANEL */}
@@ -268,12 +365,15 @@ const sendMessage = async () => {
       AI is thinking...
     </div>
   )}
+    <div ref={interviewEndRef} />
 </div>
 
         <div className="interview-input-wrapper">
   <input
   value={interviewInput}
-  onChange={(e) => setInterviewInput(e.target.value)}
+  onChange={(e) =>{ setInterviewInput(e.target.value);
+    setAvatarState(AVATAR_STATES.LISTENING);
+  }}
   placeholder="Answer the question..."
   disabled={loading}
   onKeyDown={(e) => {
