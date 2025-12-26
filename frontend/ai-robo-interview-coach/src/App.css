@@ -7,14 +7,9 @@
   height: 100vh;
   width: 100vw;
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 body {
-  background: hsl(240, 40%, 4%);
-  color: #e5e7eb;
   height: 70vh;
 } */
  html, body, #root {
