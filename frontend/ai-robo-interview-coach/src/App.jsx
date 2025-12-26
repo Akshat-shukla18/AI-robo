@@ -146,16 +146,26 @@ const sendMessage = async () => {
   if (!currentInput.trim()) return;
 
   setLoading(true);
-setAvatarState(AVATAR_STATES.TALKING);
+  setAvatarState(AVATAR_STATES.TALKING);
+
+  // ✅ Build payload safely
+  const payload = {
+    message: currentInput,
+    mode,
+    jobTitle: interviewConfig.jobTitle,
+    experience: interviewConfig.experience,
+
+    // ✅ Send document text ONLY in chat mode
+    documentText:
+      mode === "chat" && uploadedDoc
+        ? uploadedDoc.text
+        : null
+  };
+
   const res = await fetch("http://localhost:5000/chat/public", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      message: currentInput,
-      mode,
-      jobTitle: interviewConfig.jobTitle,
-      experience: interviewConfig.experience
-    })
+    body: JSON.stringify(payload)
   });
 
   const data = await res.json();
@@ -175,9 +185,11 @@ setAvatarState(AVATAR_STATES.TALKING);
     ]);
     setInterviewInput("");
   }
-setAvatarState(AVATAR_STATES.IDLE);
+
+  setAvatarState(AVATAR_STATES.IDLE);
   setLoading(false);
 };
+
 
 
   return (

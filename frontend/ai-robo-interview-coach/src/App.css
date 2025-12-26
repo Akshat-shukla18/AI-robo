@@ -239,6 +239,27 @@ body {
 .upload-btn:hover {
   opacity: 1;
 }
+.attached-doc-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(37, 99, 235, 0.15);
+  border: 1px solid rgba(37, 99, 235, 0.5);
+  color: #e5e7eb;
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.attached-doc-banner button {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 14px;
+}
+
 /* CHAT BOX ADJUSTMENT */
 /* CHAT CONTAINER */
 .chat-box {

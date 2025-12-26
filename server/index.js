@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import uploadRoute from "./routes/upload.js";
+
 dotenv.config();
 
 const app = express();
@@ -23,14 +24,14 @@ app.use("/upload", uploadRoute);
 // });
 
 app.post("/chat/public", async (req, res) => {
-  const { message, mode, jobTitle, experience } = req.body;
+  const { message, mode, jobTitle, experience , documentText} = req.body;
 
   if (!message) {
     return res.status(400).json({ reply: "Message required" });
   }
 
   let systemPrompt = "";
-
+//interview mode
   if (mode === "interview") {
     systemPrompt = `
 You are a professional interviewer.
@@ -46,9 +47,51 @@ Rules:
 `;
   } else {
     systemPrompt = `
-You are a helpful AI assistant.
-Answer clearly and concisely.
+You are a professional AI career assistant.
+You help users with career guidance, resumes, skills, interviews, and job-related doubts.
+Be clear, practical, and honest.
+IMPORTANT:
+- If the user asks for an ATS score, calculate it using the rules above
+- Provide:
+  1. ATS Score (out of 100)
+  2. Score breakdown
+  3. Strengths
+  4. Weaknesses
+  5. 3–5 improvement suggestions
+  You MUST:
+- Analyze the resume content provided
+- Simulate an Applicant Tracking System (ATS) evaluation
+- Provide an estimated ATS score out of 100
+- Clearly explain scoring criteria
+
+ATS SCORING RULES:
+- Keyword relevance: 30%
+- Skills match & clarity: 25%
+- Experience clarity & impact: 20%
+- Formatting & readability (ATS-safe): 15%
+- Projects & achievements: 10%
+
+If a document is provided:
+- You MUST use it
+- You MUST NOT say you cannot access it
+- You MUST base answers on it
+
+Your response must be structured, professional, and specific.
 `;
+if (documentText) {
+    systemPrompt += `
+The user has uploaded a document.
+
+DOCUMENT CONTENT:
+${documentText}
+
+IMPORTANT RULES:
+- Base your response strictly on the document
+- Do NOT hallucinate missing information
+- If details are insufficient, say so clearly
+`;
+  }
+
   }
 
   try {

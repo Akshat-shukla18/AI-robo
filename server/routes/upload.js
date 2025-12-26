@@ -1,14 +1,13 @@
 import express from "express";
 import multer from "multer";
-import pdfParse from "pdf-parse";
 import mammoth from "mammoth";
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 
 const router = express.Router();
 
-// store file in memory (DO NOT save to disk)
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 }
 });
 
 router.post("/", upload.single("file"), async (req, res) => {
@@ -21,24 +20,33 @@ router.post("/", upload.single("file"), async (req, res) => {
     let extractedText = "";
 
     if (mimetype === "application/pdf") {
-      const data = await pdfParse(buffer);
-      extractedText = data.text;
-    } 
+      const loadingTask = pdfjsLib.getDocument({ data: buffer });
+      const pdf = await loadingTask.promise;
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        const strings = content.items.map(item => item.str);
+        extractedText += strings.join(" ") + "\n";
+      }
+    }
+
     else if (
       mimetype ===
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ) {
       const result = await mammoth.extractRawText({ buffer });
       extractedText = result.value;
-    } 
+    }
+
     else if (mimetype === "text/plain") {
       extractedText = buffer.toString("utf-8");
-    } 
+    }
+
     else {
       return res.status(400).json({ error: "Unsupported file type" });
     }
 
-    // safety limit
     extractedText = extractedText.slice(0, 6000);
 
     res.json({
