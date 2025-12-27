@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { useRef } from "react";
-
+import AuthModal from "./components/Avatar/Auth/AuthModal";
+import { useAuth } from "./context/AuthContext";
 import remarkGfm from "remark-gfm";
 import AvatarCanvas from "./components/Avatar/AvatarCanvas";
 import { AVATAR_STATES } from "./components/Avatar/avatarStates";
@@ -10,6 +11,7 @@ import { AVATAR_STATES } from "./components/Avatar/avatarStates";
 import "./App.css";
 
 function App() {
+  const [authOpen, setAuthOpen] = useState(false);
   // const [input, setInput] = useState("");
   const interviewEndRef = useRef(null);
 
@@ -22,7 +24,7 @@ const [chatInput, setChatInput] = useState("");
 const [avatarState, setAvatarState] = useState(AVATAR_STATES.IDLE);
 const [uploadedDoc, setUploadedDoc] = useState(null);
 const [uploading, setUploading] = useState(false);
-
+const { user } = useAuth();
 
 const [chatSessionId, setChatSessionId] = useState(0);
 
@@ -138,6 +140,10 @@ const startNewChat = () => {
 
 //   
 const sendMessage = async () => {
+  if (!user) {
+    setAuthOpen(true);
+    return;
+  }
   if (loading) return;
 
   const currentInput =
@@ -194,14 +200,25 @@ const sendMessage = async () => {
 
   return (
     <div className="app-container">
-      <nav className="navbar">
-        <div className="navbar-logo">Logo</div>
-        <div className="navbar-right">
-          <span className="navbar-item">Help</span>
-          <span className="navbar-item">Feedback</span>
-          <span className="navbar-item">User</span>
-        </div>
-      </nav>
+      
+<nav className="navbar">
+  <div className="navbar-logo">AI Robo</div>
+
+  <div className="navbar-right">
+    {user ? (
+      <span className="navbar-item">
+        {user.displayName || user.email}
+      </span>
+    ) : (
+      <button
+        className="navbar-login-btn"
+        onClick={() => setAuthOpen(true)}
+      >
+        Login
+      </button>
+    )}
+  </div>
+</nav>
       <div className="layout">
 
       {/* HISTORY PANEL */}
@@ -291,13 +308,22 @@ const sendMessage = async () => {
 </label>
  <input 
   value={chatInput}
+  onFocus={() => {
+    if (!user) {
+      setAuthOpen(true);
+    }
+  }}
   onChange={(e) => setChatInput(e.target.value)}
-  placeholder="Ask the question..."
-  disabled={loading}
+  placeholder={
+    user ? "Ask the question..." : "Login to start chatting"
+  }
   onKeyDown={(e) => {
-    if (e.key === "Enter") sendMessage();
+    if (e.key === "Enter") {
+      sendMessage();
+    }
   }}
 />
+
 
   <button onClick={sendMessage} disabled={loading}>
     {loading ? "…" : "➤"}
@@ -502,11 +528,11 @@ const sendMessage = async () => {
     </div>
   </div>
 )}
+{authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
 
 
     </div>
     </div>
   );
 }
-
 export default App;
