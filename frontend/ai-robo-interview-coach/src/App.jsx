@@ -202,13 +202,17 @@ const sendMessage = async () => {
     <div className="app-container">
       
 <nav className="navbar">
-  <div className="navbar-logo">AI Robo</div>
+  <div className="navbar-logo">AI-Guide</div>
 
   <div className="navbar-right">
+     <span className="navbar-item">Help</span>
+     <span className="navbar-item">Feedback</span>
     {user ? (
-      <span className="navbar-item">
+      <span className="navbar-itemdd">
         {user.displayName || user.email}
       </span>
+      
+      
     ) : (
       <button
         className="navbar-login-btn"

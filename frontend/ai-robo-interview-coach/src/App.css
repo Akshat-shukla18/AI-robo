@@ -19,7 +19,7 @@ body {
 }
 
 body {
-  background: hsl(240, 40%, 4%);
+  background: hsl(0, 0%, 0%);
   color: #e5e7eb;
 }
 
@@ -54,9 +54,11 @@ body {
 .navbar-logo {
   font-size: 18px;
   font-weight: 700;
+
   letter-spacing: 0.5px;
-  color: #e5e7eb;
+  color: #e6f23b;
   cursor: default;
+ 
 }
 
 /* RIGHT ITEMS */
@@ -64,6 +66,69 @@ body {
   display: flex;
   gap: 14px;
 }
+.navbar-itemdd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 14px;
+  border-radius: 999px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.9),
+    rgba(99, 102, 241, 0.9)
+  );
+
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+
+  border: 1px solid rgba(99, 102, 241, 0.7);
+
+  cursor: pointer;
+  user-select: none;
+
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.4),
+    0 8px 24px rgba(37, 99, 235, 0.35);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    background 0.3s ease;
+}
+
+/* ✨ Hover Effect */
+.navbar-itemdd:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(56, 189, 248, 0.95),
+    rgba(37, 99, 235, 0.95)
+  );
+
+  box-shadow:
+    0 0 0 2px rgba(56, 189, 248, 0.7),
+    0 12px 35px rgba(37, 99, 235, 0.55);
+
+  transform: translateY(-1px);
+}
+
+/* 🔘 Active / Click */
+.navbar-itemdd:active {
+  transform: translateY(0);
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.8),
+    0 6px 18px rgba(37, 99, 235, 0.4);
+}
+
+/* 👤 Optional avatar circle inside username */
+.navbar-itemdd::before {
+  content: "👤";
+  font-size: 14px;
+  opacity: 0.9;
+}
+
 
 /* NAV ITEM */
 .navbar-item {
@@ -104,6 +169,7 @@ body {
     rgba(37, 99, 235, 0.35),
     rgba(37, 99, 235, 0.15)
   );
+  
 
   box-shadow:
     0 0 0 2px rgba(37, 99, 235, 0.6),
