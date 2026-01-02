@@ -20,6 +20,10 @@ body {
 
 body {
   background: hsl(0, 0%, 0%);
+  background-image: url('imagee.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100%;
   color: #e5e7eb;
 }
 
@@ -31,8 +35,8 @@ body {
   background: linear-gradient(
     180deg,
     #020617,
-    #020617 70%,
-    rgba(37, 99, 235, 0.05)
+    #020617
+  
   );
 
   border: 1px solid rgba(37, 99, 235, 0.45);
@@ -60,7 +64,35 @@ body {
   cursor: default;
  
 }
+.navbar-login-btn {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: #ffffff;
 
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+
+  padding: 8px 22px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  transition: 
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.15s ease;
+}
+
+.navbar-login-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
 /* RIGHT ITEMS */
 .navbar-right {
   display: flex;
@@ -326,6 +358,7 @@ body {
 .chat-box {
   flex: 1;
   height: 100%;
+background-blend-mode: hard-light;
   background: linear-gradient(
     180deg,
     #020617 0%,

@@ -12,6 +12,7 @@ import "./App.css";
 
 function App() {
   const [authOpen, setAuthOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   // const [input, setInput] = useState("");
   const interviewEndRef = useRef(null);
 
@@ -24,7 +25,7 @@ const [chatInput, setChatInput] = useState("");
 const [avatarState, setAvatarState] = useState(AVATAR_STATES.IDLE);
 const [uploadedDoc, setUploadedDoc] = useState(null);
 const [uploading, setUploading] = useState(false);
-const { user } = useAuth();
+const { user, logout } = useAuth();
 
 const [chatSessionId, setChatSessionId] = useState(0);
 
@@ -208,17 +209,17 @@ const sendMessage = async () => {
      <span className="navbar-item">Help</span>
      <span className="navbar-item">Feedback</span>
     {user ? (
-      <span className="navbar-itemdd">
+      <span className="navbar-itemdd" onClick={() => setProfileOpen(true)}>
         {user.displayName || user.email}
       </span>
-      
-      
+
+
     ) : (
-      <button
+      <button 
         className="navbar-login-btn"
         onClick={() => setAuthOpen(true)}
       >
-        Login
+        Login 
       </button>
     )}
   </div>
@@ -533,6 +534,39 @@ const sendMessage = async () => {
   </div>
 )}
 {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
+{profileOpen && (
+  <div className="modal-overlay">
+    <div className="profile-modal">
+      <button
+        className="modal-close-btn"
+        onClick={() => setProfileOpen(false)}
+        aria-label="Close profile"
+      >
+        ✕
+      </button>
+      <h3>Profile</h3>
+      <div className="profile-info">
+        <div className="profile-field">
+          <label>Name:</label>
+          <span>{user.displayName || 'N/A'}</span>
+        </div>
+        <div className="profile-field">
+          <label>Email:</label>
+          <span>{user.email}</span>
+        </div>
+      </div>
+      <button
+        className="logout-btn"
+        onClick={() => {
+          logout();
+          setProfileOpen(false);
+        }}
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+)}
 
 
     </div>
