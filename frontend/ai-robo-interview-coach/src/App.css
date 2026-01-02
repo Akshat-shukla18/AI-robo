@@ -20,7 +20,7 @@ body {
 
 body {
   background: hsl(0, 0%, 0%);
-  background-image: url('imagee.jpg');
+  background-image: url('sea-blue-sky-background.jpg');
   background-size: cover;
   background-position: center;
   height: 100%;
@@ -358,7 +358,7 @@ body {
 .chat-box {
   flex: 1;
   height: 100%;
-background-blend-mode: hard-light;
+
   background: linear-gradient(
     180deg,
     #020617 0%,
