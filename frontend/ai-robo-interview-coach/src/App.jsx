@@ -7,8 +7,10 @@ import { useAuth } from "./context/AuthContext";
 import remarkGfm from "remark-gfm";
 import AvatarCanvas from "./components/Avatar/AvatarCanvas";
 import { AVATAR_STATES } from "./components/Avatar/avatarStates";
-
+// import ModelViewer from "./components/Avatar/ModelViewer";
 import "./App.css";
+import Landing from "./Landing";
+
 
 function App() {
   const [authOpen, setAuthOpen] = useState(false);
@@ -42,7 +44,7 @@ const [interviewInput, setInterviewInput] = useState("");
 const [timerRunning, setTimerRunning] = useState(false);
 const [showExitConfirm, setShowExitConfirm] = useState(false);
 const [search, setSearch] = useState("");
-
+ const [entered, setEntered] = useState(false);
 
 useEffect(() => {
   interviewEndRef.current?.scrollIntoView({
@@ -101,6 +103,9 @@ You can now ask me to analyze it.`
 };
 
 
+  const [screen, setScreen] = useState("landing"); // landing | app
+
+ 
 
 
 
@@ -196,14 +201,20 @@ const sendMessage = async () => {
   setAvatarState(AVATAR_STATES.IDLE);
   setLoading(false);
 };
+if (screen === "landing") {
+  return <Landing onEnter={() => setScreen("app")} />;
+}
 
 
 
   return (
     <div className="app-container">
-      
+       
 <nav className="navbar">
   <div className="navbar-logo">AI-Guide</div>
+  
+    
+ 
 
   <div className="navbar-right">
      <span className="navbar-item">Help</span>
