@@ -94,9 +94,6 @@ html, body {
     0 30px 80px rgba(37,99,235,0.9);
 }
 
-/* ==============================
-   Right Section (≈75–80%)
-============================== */
 
 .landing-right {
   flex: 1;
@@ -104,9 +101,7 @@ html, body {
   overflow: hidden;
 }
 
-/* ==============================
-   Cards Area (BIG, Bottom Right)
-============================== */
+
 
 .cards-wrapper {
   position: absolute;
@@ -123,16 +118,14 @@ html, body {
   min-height: 320px;
 }
 
-/* Let wrapper control everything */
+
 .card-swap-container {
   position: absolute;
   inset: 0;
   perspective: 900px;
 }
 
-/* ==============================
-   Responsive (Mobile)
-============================== */
+
 
 @media (max-width: 900px) {
   .landing-root {
