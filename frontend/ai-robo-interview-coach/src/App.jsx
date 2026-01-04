@@ -211,7 +211,7 @@ if (screen === "landing") {
     <div className="app-container">
        
 <nav className="navbar">
-  <div className="navbar-logo">AI-Guide</div>
+  <div className="navbar-logo"  onClick={() => setScreen("landing")}>AI-Guide</div>
   
     
  

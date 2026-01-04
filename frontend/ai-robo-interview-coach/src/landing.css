@@ -1,155 +1,160 @@
-/* ==============================
-   Global Reset (Prevent Scroll)
-============================== */
-
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-/* ==============================
-   Landing Root (Fixed Screen)
-============================== */
-
+/* =========================
+   ROOT CONTAINER
+========================= */
 .landing-root {
+  position: relative;
   width: 100vw;
   height: 100vh;
-  display: flex;
+  overflow: hidden;
+
   background: radial-gradient(circle at top, #020617, #000);
-  color: #e5e7eb;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
-}
 
-/* ==============================
-   Left Section (≈20–25%)
-============================== */
-
-.landing-left {
-  flex: 0 0 24%;
-  padding: clamp(32px, 4vw, 64px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* Headline */
-.landing-left h1 {
-  font-size: clamp(28px, 2.8vw, 40px);
-  font-weight: 800;
-  line-height: 1.15;
-  margin-bottom: 14px;
-  background: linear-gradient(135deg, #ffffff, #93c5fd);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Description */
-.landing-left p {
-  font-size: clamp(14px, 1vw, 16px);
-  opacity: 0.85;
-  line-height: 1.6;
-  margin-bottom: 32px;
-}
-
-/* ==============================
-   Button (LEFT aligned)
-============================== */
-
-.button-wrapper {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.enter-btn {
-  width: 200px;
-  padding: 14px 0;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  border-radius: 14px;
-  cursor: pointer;
-  color: #e5e7eb;
-
-  background:
-    linear-gradient(#020617, #020617) padding-box,
-    linear-gradient(135deg, #2563eb, #38bdf8, #22d3ee) border-box;
-
-  border: 2px solid transparent;
-
+  /* Page Border */
+  border: 1px solid rgba(99, 102, 241, 0.25);
   box-shadow:
-    0 0 0 1px rgba(56,189,248,0.25),
-    0 16px 40px rgba(37,99,235,0.55);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
 
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+/* =========================
+   HEADING LAYER
+========================= */
+.landing-heading {
+  position: absolute;
+  top: 90px;
+  left: 100px;              /* aligns with left column */
+  z-index: 5;
+
+  white-space: nowrap;
+  pointer-events: none;
+
+  font-size: clamp(2.4rem, 3.5vw, 3rem);
+  font-weight: 700;
+}
+
+/* =========================
+   MAIN GRID
+========================= */
+.landing-content {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  height: 100%;
+
+  padding: 160px 120px 80px;
+  align-items: center;
+}
+
+/* =========================
+   LEFT COLUMN
+========================= */
+.landing-left {
+  max-width: 520px;
+}
+
+.landing-left p {
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  color: #cbd5f5;
+  margin-bottom: 32px;
+  line-height: 1.6;
+  max-width: 290px;
+}
+
+/* =========================
+   RIGHT COLUMN (CARDS)
+========================= */
+.landing-right {
+  position: relative;
+  display: flex;
+  justify-content: center;   /* horizontal */
+  align-items: center;       /* vertical */
+  height: 100%;
+}
+.cards-wrapper {
+  transform: scale(1.05);
+  margin-top: 40%;
+  margin-left: 40%;
+  transform-origin: center right;
+}
+
+/* =========================
+   INTERACTIVE BUTTON
+========================= */
+.enter-btn {
+  position: relative;
+  padding: 14px 36px;
+
+  border-radius: 999px;
+  border: none;
+
+  background: linear-gradient(135deg, #6366f1, #9333ea);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow:
+    0 6px 30px rgba(99, 102, 241, 0.35);
+}
+
+.enter-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 0 25px rgba(147, 51, 234, 0.8);
 }
 
 .enter-btn:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 0 0 2px rgba(56,189,248,0.8),
-    0 30px 80px rgba(37,99,235,0.9);
+  transform: translateY(-2px) scale(1.03);
 }
 
-
-.landing-right {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
+.enter-btn:hover::after {
+  opacity: 1;
 }
 
-
-
-.cards-wrapper {
-  position: absolute;
-  right: 2vw;
-  bottom: 2vh;
-
-  width: 55vw;
-  height: 70vh;
-
-  max-width: 900px;
-  max-height: 650px;
-
-  min-width: 420px;
-  min-height: 320px;
+.enter-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 }
 
-
-.card-swap-container {
-  position: absolute;
-  inset: 0;
-  perspective: 900px;
-}
-
-
-
-@media (max-width: 900px) {
-  .landing-root {
-    flex-direction: column;
-  }
-
-  .landing-left {
-    flex: 0 0 auto;
-    align-items: center;
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+@media (max-width: 1024px) {
+  .landing-content {
+    grid-template-columns: 1fr;
+    padding: 140px 60px 60px;
+    gap: 80px;
     text-align: center;
   }
 
-  .button-wrapper {
-    justify-content: center;
-  }
-
-  .landing-right {
-    flex: 1;
+  .landing-left {
+    margin: 0 auto;
   }
 
   .cards-wrapper {
-    width: 90vw;
-    height: 55vh;
-    right: 50%;
-    transform: translateX(50%);
+    transform: scale(1.1);
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-heading {
+    top: 40px;
+  }
+
+  .landing-content {
+    padding: 120px 24px 40px;
+    gap: 60px;
+  }
+
+  .cards-wrapper {
+    transform: scale(0.95);
+  }
+
+  .enter-btn {
+    width: 100%;
+    max-width: 280px;
   }
 }
