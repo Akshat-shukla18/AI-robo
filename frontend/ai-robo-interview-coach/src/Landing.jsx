@@ -26,11 +26,11 @@ export default function Landing({ onEnter }) {
       {/* MAIN CONTENT GRID */}
       <div className="landing-content">
         <div className="landing-left">
-          <p>Your dedicated AI assistant for interview preparation, and placement guidance, to help you prepare smarter and perform better in job interviews.</p>
+          <p>Your dedicated AI assistant for interview preparation, and placement guidance, Prepare Confidently for Interviews</p>
 
           <div className="button-wrapper">
             <button className="enter-btn" onClick={onEnter}>
-              Enter App
+              Get Started
             </button>
           </div>
         </div>
