@@ -283,7 +283,7 @@ if (screen === "landing") {
 
         {mode === "chat" && (
   <div className="chat-box">
-    <div className="chat-header">AI Guidance Desk</div>
+   <div className="chat-header"> AI Guidance Desk </div> 
 {uploadedDoc && (
   <div className="attached-doc-banner">
     <span>📄 {uploadedDoc.name}</span>
@@ -373,12 +373,12 @@ if (screen === "landing") {
 >
   Exit Interview
   </button>
-  <button
+  {/* <button
   className="end-interview-btn"
   onClick={endInterview}
 >
   End Interview
-</button>
+</button> */}
 </div>
 
     {/* BODY */}

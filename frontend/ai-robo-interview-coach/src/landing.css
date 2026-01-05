@@ -6,9 +6,9 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-
-  background: radial-gradient(circle at top, #020617, #000);
-
+  background-image: url('33.jpg');
+  /* background: radial-gradient(circle at top, #020617, #000); */
+background-size: cover;
   /* Page Border */
   border: 1px solid rgba(99, 102, 241, 0.25);
   box-shadow:
