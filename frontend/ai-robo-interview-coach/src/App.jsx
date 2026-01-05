@@ -209,9 +209,12 @@ if (screen === "landing") {
 
   return (
     <div className="app-container">
-       
+    
 <nav className="navbar">
-  <div className="navbar-logo"  onClick={() => setScreen("landing")}>AI-Guide</div>
+
+  <div className="navbar-logo"  onClick={() => setScreen("landing")}>
+    
+   AI-Guide</div>
   
     
  
@@ -234,7 +237,9 @@ if (screen === "landing") {
       </button>
     )}
   </div>
+
 </nav>
+
       <div className="layout">
 
       {/* HISTORY PANEL */}
@@ -386,8 +391,12 @@ if (screen === "landing") {
 
       {/* AVATAR PANEL */}
       <div className="avatar-panel">
-         <AvatarCanvas />
-<AvatarCanvas avatarState={avatarState} />
+           <img
+    src="interv.png"
+    alt="Interviewer"
+   
+  />
+
 
         <div className="avatar-status">
   {avatarState === "listening" && "Listening"}
