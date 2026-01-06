@@ -317,7 +317,7 @@ if (screen === "landing") {
       )}
     </div>
 
-  <div className="interview-input-wrapper">
+  <div className="chat-input-wrapper">
     <label className="upload-btn">
   📎
   <input
