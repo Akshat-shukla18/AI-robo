@@ -630,11 +630,8 @@ position: relative;
   align-self: flex-start;
 }
 
-/* .chat-input {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-}
+/* .chat-input {\
+\
 
 .chat-input input {
   flex: 1;
