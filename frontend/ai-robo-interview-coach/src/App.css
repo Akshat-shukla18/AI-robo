@@ -408,11 +408,7 @@ body {
   flex: 1;
   height: 100%;
 
-  background: linear-gradient(
-    180deg,
-    #d9dcea 0%,
-    #2842b7 100%
-  );
+background: linear-gradient(180deg, #020617 0%, #020617 100%);
   border-radius: 14px;
   display: flex;
   flex-direction: column;
@@ -484,8 +480,8 @@ position: relative;
   gap: 10px;
   background: radial-gradient(
     circle at top,
-    rgba(37, 99, 235, 0.04),
-    transparent 60%
+    rgba(17, 75, 210, 0.12),
+    transparent 70%
   );
 }
 
@@ -503,8 +499,8 @@ position: relative;
   align-self: flex-end;
   background: linear-gradient(
     135deg,
-    #2563eb,
-    #1d4ed8
+    #153d91,
+    rgb(42, 82, 201)
   );
   color: #ffffff;
   box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
@@ -514,7 +510,7 @@ position: relative;
   align-self: flex-start;
   background: #1e293b;
   color: #e5e7eb;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(4, 33, 255, 0.4);
 }
 
 .message.thinking {
@@ -624,8 +620,8 @@ position: relative;
 .message.ai {
   background: linear-gradient(
     180deg,
-    #121213 0%,
-    #2842b7 100%
+    #02025b 0%,
+    #253eaf 100%
   );
   align-self: flex-start;
 }
@@ -635,6 +631,7 @@ position: relative;
 
 .chat-input input {
   flex: 1;
+
   padding: 10px;
   border-radius: 8px;
   border: none;

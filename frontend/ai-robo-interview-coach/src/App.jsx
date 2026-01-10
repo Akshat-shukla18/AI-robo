@@ -10,7 +10,7 @@ import { AVATAR_STATES } from "./components/Avatar/avatarStates";
 // import ModelViewer from "./components/Avatar/ModelViewer";
 import "./App.css";
 import Landing from "./Landing";
-
+import Help from "./components/Avatar/Help/help.jsx";
 
 function App() {
   const [authOpen, setAuthOpen] = useState(false);
@@ -45,6 +45,7 @@ const [timerRunning, setTimerRunning] = useState(false);
 const [showExitConfirm, setShowExitConfirm] = useState(false);
 const [search, setSearch] = useState("");
  const [entered, setEntered] = useState(false);
+ 
 
 useEffect(() => {
   interviewEndRef.current?.scrollIntoView({
@@ -103,8 +104,10 @@ You can now ask me to analyze it.`
 };
 
 
-  const [screen, setScreen] = useState("landing"); // landing | app
+ // landing | app
+  
 
+  
  
 
 
@@ -201,10 +204,13 @@ const sendMessage = async () => {
   setAvatarState(AVATAR_STATES.IDLE);
   setLoading(false);
 };
+const [screen, setScreen] = useState("landing");
 if (screen === "landing") {
   return <Landing onEnter={() => setScreen("app")} />;
 }
-
+if (screen === "help") {
+  return <Help onBack={() => setScreen("app")} />;
+}
 
 
   return (
@@ -220,8 +226,10 @@ if (screen === "landing") {
  
 
   <div className="navbar-right">
-     <span className="navbar-item">Help</span>
-     <span className="navbar-item">Feedback</span>
+<span className="navbar-item" onClick={() => setScreen("help")}
+>
+  Help
+</span>     <span className="navbar-item">Feedback</span>
     {user ? (
       <span className="navbar-itemdd" onClick={() => setProfileOpen(true)}>
         {user.displayName || user.email}

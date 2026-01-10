@@ -1,0 +1,130 @@
+.help-container {
+  width: 100%;
+  min-height: 100%;
+  padding: 40px 60px;
+  background: radial-gradient(
+    circle at top,
+    rgba(37, 99, 235, 0.12),
+    #020617 60%
+  );
+  color: #e5e7eb;
+}
+
+/* HEADER */
+.help-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.help-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.help-header p {
+  font-size: 15px;
+  opacity: 0.75;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* CARDS */
+.help-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+.help-card {
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.9),
+    rgba(2, 6, 23, 0.9)
+  );
+  border-radius: 16px;
+  padding: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.help-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 45px rgba(37, 99, 235, 0.25);
+}
+
+.help-card h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.help-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* CONTACT */
+.help-contact {
+  text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.help-contact h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.help-contact p {
+  font-size: 14px;
+  opacity: 0.75;
+  margin-bottom: 20px;
+}
+
+.contact-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(2, 6, 23, 0.8);
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(37, 99, 235, 0.4);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.25);
+}
+
+.contact-box a {
+  color: #60a5fa;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-box a:hover {
+  text-decoration: underline;
+}
+.help-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.help-back-btn {
+  background: transparent;
+  color: #93c5fd;
+  border: 1px solid rgba(147,197,253,0.4);
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.help-back-btn:hover {
+  background: rgba(147,197,253,0.12);
+  border-color: #93c5fd;
+  box-shadow: 0 0 12px rgba(147,197,253,0.4);
+}
