@@ -10,11 +10,13 @@
   // import ModelViewer from "./components/Avatar/ModelViewer";
   import "./App.css";
   import Landing from "./Landing";
-  import Help from "./components/Avatar/Help/help.jsx";
+import Help from "./components/Avatar/Help/help.jsx";
+import FeedbackModal from "./components/Avatar/Feedback/FeedbackModal";
 
   function App() {
-    const [authOpen, setAuthOpen] = useState(false);
-    const [profileOpen, setProfileOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
     // const [input, setInput] = useState("");
     const interviewEndRef = useRef(null);
 
@@ -229,7 +231,8 @@
   <span className="navbar-item" onClick={() => setScreen("help")}
   >
     Help
-  </span>     <span className="navbar-item">Feedback</span>
+  </span>
+  <span className="navbar-item" onClick={() => setFeedbackOpen(true)}>Feedback</span>
       {user ? (
         <span className="navbar-itemdd" onClick={() => setProfileOpen(true)}>
           {user.displayName || user.email}
@@ -562,6 +565,7 @@
     </div>
   )}
   {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
+  {feedbackOpen && <FeedbackModal isOpen={feedbackOpen} onClose={() => setFeedbackOpen(false)} user={user} />}
   {profileOpen && (
     <div className="modal-overlay">
       <div className="profile-modal">

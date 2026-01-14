@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import nodemailer from "nodemailer";
 import uploadRoute from "./routes/upload.js";
 
 dotenv.config();
